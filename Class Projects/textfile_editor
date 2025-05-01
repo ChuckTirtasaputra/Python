@@ -1,0 +1,91 @@
+#Chuck Tirtasaputra
+#October 13, 2021
+#This code will give the user a set of options to do with a text file like
+
+def open_file(textfile):    #Finds the file
+    while True:
+        try:
+            with open(textfile, "r+") as f:
+                contents = f.read()
+                break
+        except FileNotFoundError:   #If error in finding the file
+            file = input("Try again! File not found! ")
+
+    return contents
+
+
+def get_do_option(contents, textfile, name):    #The menu
+    print('1: Know how many times a word or phrase comes up in the text.')
+    print('2: Know the contexts of the word or phrase in the text.')
+    print('3: Do a search and replace for a word or phrase in the text.')
+    print('4: Copy the text file into a new one.')
+    print('5: Wipe your file. ')
+    print('6: Quit the program ')
+
+    option = int(input('Choose your option: '))
+
+    if option == 1:     #Counts # of times word or phrase appears
+        word = input('What word or phrase do you want to look for? ')
+        print(word, 'occurred', contents.count(word), 'times')
+
+    elif option == 2:   #Finds the word or phrase in the context of the file
+        word = input('What word or phrase do you want to look for? ')
+        wordIndex = contents.find(word)
+        if wordIndex < 50:
+            print(contents[:wordIndex], contents[wordIndex:wordIndex + 101])
+        elif wordIndex > len(contents) - 50:
+            print(contents[wordIndex - 101:wordIndex], contents[wordIndex:])
+        else:
+            print(contents[wordIndex - 50:wordIndex], contents[wordIndex:wordIndex + 50])
+
+    elif option == 3:   #Search and replace the word
+        word = str(input("What word do you want to replace in the text file? "))
+        wordreplace = str(input("What word do you want to replace it with? "))
+
+        with open(textfile, "w+") as f:
+            replace = contents.replace(word, wordreplace)
+            f.write(replace)
+
+        print(word, "has been replaced by", wordreplace)
+
+    elif option == 4:   #Saves the text into a new file
+        filename = input("Input the name of the new text file you want to create. ")
+        filename = filename + '.txt'
+
+        with open(filename, "w+", encoding = "utf=8") as f:
+            f.write(contents)
+
+        print("Your new text file is named", filename)
+
+    elif option == 5:   #Wipes the entire textfile
+        with open(textfile, "w+") as f:
+            blank = ""
+            f.write(blank)
+        print(textfile, "has been wiped.")
+
+    elif option == 6:   #Quits the program
+        print("Goodbye", name, "! Enjoy the rest of your day!")
+        quit()
+    else:
+        print('Invalid number. Try again. ')
+        get_do_option(contents, textfile, name)
+
+    again = input('Do you want to go back to the menu? (y/n) : ')   #Asks if user wants to go back to menu
+    if again == 'y':
+        get_do_option(contents, textfile, name)
+    else:
+        print("Goodbye", name, "! Enjoy the rest of your day!")     #Tells User 'Goodbye'
+        quit()
+
+def main():     #Asks user for their name and the name of the textfile
+    name = input("What's your name? ")
+    file = input("Hi " + name + "! What's the name of the text file you want to input? ")
+    textfile = file + ".txt"
+    contents = open_file(textfile)
+
+    get_do_option(contents, textfile, name)     #Calls on the menu 
+
+main()  #Starts the interface
+
+
+

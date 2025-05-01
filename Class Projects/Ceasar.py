@@ -1,8 +1,10 @@
 # Chuck Tirtasaputra
 # date: October 10, 2021
 
-# this is a ceasar ciper code that can shift the text and verifies with the user
-# if the text is legible or not with multiple different text files
+''' 
+this is a ceasar ciper code that can shift the text and verifies with the user
+if the text is legible or not with multiple different text files
+'''
 
 def caesar(text, shift):
     output = ""
